@@ -1,0 +1,123 @@
+<view class="container">
+  <view class="toggleQview" bindtap="toggleQueryViewHide" style="padding:5px;">显示或隐藏查询视图</view>
+  <view class="queryView" hidden="{{queryViewHidden}}">
+    <view class="queryParams">
+      <view class="queryItem">
+        <view class="label">失物招领类别：</view>
+        <view class="searchControl">
+          <picker bindchange="bind_productClassObj_change" value="{{productClassObj_Index}}" range-key="productClassName" range="{{productClasss}}">
+            <view class="value" name="types">
+              <input style="width:75%;display:inline-block;float:left;" value="{{productClasss[productClassObj_Index].productClassName}}"></input>
+              <image class="arrow-r" src="/images/arrow-r-0.png"></image>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">失物招领名称：</view>
+        <view class="searchControl"><input data-id="productName" placeholder="请输入失物招领名称关键字" value="{{productName}}" bindinput="searchValueInput" /></view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">价格区域：</view>
+        <view class="searchControl">
+          <picker bindchange="bind_priceRegionObj_change" value="{{priceRegionObj_Index}}" range-key="regionName" range="{{priceRegions}}">
+            <view class="value" name="types">
+              <input style="width:75%;display:inline-block;float:left;" value="{{priceRegions[priceRegionObj_Index].regionName}}"></input>
+              <image class="arrow-r" src="/images/arrow-r-0.png"></image>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">成色：</view>
+        <view class="searchControl">
+          <picker bindchange="bind_newOldLevelObj_change" value="{{newOldLevelObj_Index}}" range-key="levelName" range="{{newOldLevels}}">
+            <view class="value" name="types">
+              <input style="width:75%;display:inline-block;float:left;" value="{{newOldLevels[newOldLevelObj_Index].levelName}}"></input>
+              <image class="arrow-r" src="/images/arrow-r-0.png"></image>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">区域：</view>
+        <view class="searchControl">
+          <picker bindchange="bind_areaObj_change" value="{{areaObj_Index}}" range-key="areaName" range="{{areaInfos}}">
+            <view class="value" name="types">
+              <input style="width:75%;display:inline-block;float:left;" value="{{areaInfos[areaObj_Index].areaName}}"></input>
+              <image class="arrow-r" src="/images/arrow-r-0.png"></image>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">发布人：</view>
+        <view class="searchControl">
+          <picker bindchange="bind_userObj_change" value="{{userObj_Index}}" range-key="realname" range="{{userInfos}}">
+            <view class="value" name="types">
+              <input style="width:75%;display:inline-block;float:left;" value="{{userInfos[userObj_Index].realname}}"></input>
+              <image class="arrow-r" src="/images/arrow-r-0.png"></image>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+      <view class="queryItem">
+        <view class="label">发布时间：</view>
+         <view class="searchControl">
+          <picker mode="date" value="{{addTime}}" start="1970-01-01" end="2030-01-01" bindchange="bind_addTime_change" >
+            <view>
+              <input style="width:75%;display:inline-block;float:left;" placeholder="选择发布时间" value="{{addTime}}"></input>
+              <text class="clearButton" catchtap="clear_addTime">x</text>
+            </view>
+          </picker> 
+        </view>
+      </view>
+
+    </view>
+
+    <view class="queryButton">
+       <button class="font_12 fl_r op-btn mr_10" bindtap="queryProductInfo">查询</button>
+    </view>
+  </view>
+
+  <view class="productInfoList">
+  <block wx:for-items="{{productInfos}}" wx:key="{{index}}">
+    <view class="productInfoItem">
+        <view class="productInfoImg">
+          <image src="{{item.productPhotoUrl}}"></image>
+        </view>
+        <navigator url="productInfo_detail?productId={{item.productId}}" hover-class="navigator-hover">
+        <view class="productInfoText">
+          <view>失物招领类别：{{item.productClassObj.productClassName}}</view>
+          <view>失物招领名称：{{item.productName}}</view>
+          <view>失物招领价格：{{item.price}}</view>
+          <view>成色：{{item.newOldLevelObj.levelName}}</view>
+          <view>区域：{{item.areaObj.areaName}}</view> 
+          <view>发布时间：{{item.addTime}}</view>
+        </view>
+        </navigator>
+    </view>
+    <view class="opt_view" style="display:none;">
+      <button class="font_12 fl_r del-btn mr_10" bindtap="removeProductInfo" data-productid="{{item.productId}}">删除</button> 
+      <navigator url="productInfo_modify?productId={{item.productId}}" hover-class="navigator-hover">
+        <button class="font_12 fl_r op-btn mr_10">编辑</button>
+      </navigator>
+    </view>
+  </block>
+  </view>
+
+  <view hidden="{{loading_hide}}" class="loading">
+    <view class="loadingImg"><image src="/images/loading.gif" mode="aspectFill"></image></view>
+    <view class="loadingTxt">..加载中..</view>
+  </view>
+  <view class="nodata_view" hidden="{{nodata_hide}}">
+    <image src="/images/Noline.png" mode="widthFix"></image>
+  </view>
+</view>
+
